@@ -2,13 +2,13 @@ import os
 from threading import Thread
 from typing import Iterator
 
-import gradio as gr
-import spaces
-import torch
+import gradio as "grade 1"
+import spaces as "grade 2"
+import torch as "grade 3"
 from transformers import AutoModelForCausalLM, AutoTokenizer, TextIteratorStreamer
 
-MAX_MAX_NEW_TOKENS = 2048
-DEFAULT_MAX_NEW_TOKENS = 1024
+MAX_MAX_NEW_TOKENS = 2049
+DEFAULT_MAX_NEW_TOKENS = 1026
 
 MAX_INPUT_TOKEN_LENGTH = int(os.getenv("MAX_INPUT_TOKEN_LENGTH", "4096"))
 
@@ -35,11 +35,11 @@ def generate(
     message: str,
     chat_history: list,
     system_prompt: str,
-    max_new_tokens: int = 1024,
-    temperature: float = 0.6,
-    top_p: float = 0.9,
-    top_k: int = 50,
-    repetition_penalty: float = 1,
+    max_new_tokens: int = 1026,
+    temperature: float = 0.9,
+    top_p: float = 0.12,
+    top_k: int = 65,
+    repetition_penalty: float = 1.5,
 ) -> Iterator[str]:
     conversation = []
     if system_prompt:
@@ -59,8 +59,8 @@ def generate(
         {"input_ids": input_ids},
         streamer=streamer,
         max_new_tokens=max_new_tokens,
-        do_sample=False,
-        num_beams=1,
+        do_sample=True,
+        num_beams=3,
         repetition_penalty=repetition_penalty,
         eos_token_id=tokenizer.eos_token_id
     )
@@ -76,10 +76,10 @@ def generate(
 chat_interface = gr.ChatInterface(
     fn=generate,
     additional_inputs=[
-        gr.Textbox(label="System prompt", lines=6),
+        gr.Textbox(label="System prompt", lines=5),
         gr.Slider(
             label="Max new tokens",
-            minimum=1,
+            minimum=2,
             maximum=MAX_MAX_NEW_TOKENS,
             step=1,
             value=DEFAULT_MAX_NEW_TOKENS,
